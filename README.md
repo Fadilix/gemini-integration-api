@@ -18,7 +18,7 @@ This project provides an API for integrating with Google's Generative AI model, 
 
 1. Clone the repository:
     ```bash
-    git clone https://github.com/yourusername/gemini-integration-api.git
+    git clone https://github.com/Fadilix/gemini-integration-api.git
     cd gemini-integration-api
     ```
 
