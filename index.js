@@ -14,28 +14,32 @@ const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
 app.get("/", (req, res) => {
     return res.status(200).json({ msg: "This is a gemini integration api" });
-})
+});
 
 const callGemini = async (prompt) => {
-    const result = await model.generateContent(prompt);
-    const response = await result.response;
-    const text = response.text();
-    return text;
-}
-
+    try {
+        const result = await model.generateContent(prompt);
+        const response = await result.response;
+        const text = await response.text();
+        return text;
+    } catch (error) {
+        console.error("Error calling Gemini:", error);
+        throw error;
+    }
+};
 
 app.post("/gemini", async (req, res) => {
     const { prompt } = req.body;
-    const result = await callGemini(prompt);
     try {
+        const result = await callGemini(prompt);
         return res.status(200).json({ result });
     } catch (err) {
-        return res.status(500).json({ message: "Internal Server Error" })
+        console.error("Error in /gemini route:", err);
+        return res.status(500).json({ message: "Internal Server Error" });
     }
 });
 
-
-const { PORT } = process.env
+const { PORT } = process.env;
 app.listen(PORT, () => {
-    console.log(`Listening on port ${PORT}`)
-})
+    console.log(`Listening on port ${PORT}`);
+});
