@@ -36,7 +36,7 @@ This project provides an API for integrating with Google's Generative AI model, 
 
 4. Start the server:
     ```bash
-    npm start
+    nodemon index.js
     ```
 
 ## Usage
