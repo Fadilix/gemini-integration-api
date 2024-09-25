@@ -10,7 +10,7 @@ app.use(cors());
 
 const genAI = new GoogleGenerativeAI(process.env.API_KEY);
 
-const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" }); 
+const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
 app.get("/", (req, res) => {
     return res.status(200).json({ msg: "This is a gemini integration api" });
@@ -24,18 +24,26 @@ const callGemini = async (prompt) => {
         return text;
     } catch (error) {
         console.error("Error calling Gemini:", error);
+        console.error("Error details:", JSON.stringify(error, null, 2));
         throw error;
     }
 };
 
 app.post("/gemini", async (req, res) => {
     const { prompt } = req.body;
+    if (!prompt) {
+        return res.status(400).json({ message: "Prompt is required" });
+    }
     try {
         const result = await callGemini(prompt);
         return res.status(200).json({ result });
     } catch (err) {
         console.error("Error in /gemini route:", err);
-        return res.status(500).json({ message: "Internal Server Error" });
+        console.error("Error details:", JSON.stringify(err, null, 2));
+        return res.status(500).json({
+            message: "Internal Server Error",
+            error: err.message
+        });
     }
 });
 
