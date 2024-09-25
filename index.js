@@ -10,7 +10,7 @@ app.use(cors());
 
 const genAI = new GoogleGenerativeAI(process.env.API_KEY);
 
-const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" }); 
 
 app.get("/", (req, res) => {
     return res.status(200).json({ msg: "This is a gemini integration api" });
