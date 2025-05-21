@@ -34,6 +34,7 @@ app.post("/gemini", async (req, res) => {
     if (!prompt) {
         return res.status(400).json({ message: "Prompt is required" });
     }
+
     try {
         const result = await callGemini(prompt);
         return res.status(200).json({ result });
